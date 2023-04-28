@@ -37,9 +37,17 @@ app.post('/users', (request, result) => {
 
 app.delete('/users/:id', (request, result) => {
     const id = parseInt(request.params.id);
-    const indexOfUser = users.indexOf(user => user.id === id);
-    delete users[indexOfUser];
-    result.status(204).send('Deleted, thanks!');
+    const indexOfUser = users.findIndex(user => user.id === id);
+    users.splice(indexOfUser, 1);
+    result.status(204).send('Deleted!');
+})
+
+app.put('/users/:id', (request, result) => {
+    const id = parseInt(request.params.id);
+    const indexOfUser = users.findIndex(user => user.id === id);
+    users[indexOfUser].name = request.body.name;
+    users[indexOfUser].surname = request.body.surname;
+    result.status(204).send('Updated!');
 })
 
 app.listen(port, () => {
